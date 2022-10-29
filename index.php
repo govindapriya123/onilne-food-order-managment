@@ -1,151 +1,78 @@
-<?php include('partials-front/menu.php');?>
 
-    <!-- fOOD sEARCH Section Starts Here -->
-    <section class="food-search text-center">
-        <div class="container">
-            
-            <form action="<?php echo SITEURL;?>" method="POST">
-                <input type="search" name="search" placeholder="Search for Food.." required>
-                <input type="submit" name="submit" value="Search" class="btn btn-primary">
-            </form>
+<?php include('partials/menu.php');?>
+        <!--main section-->
+        <div class="main-content">
+            <div class="wrapper">
+            <h1>Dashboard</h1>
+            <br><br>
+            <br><br>
 
-        </div>
-    </section>
-    <!-- fOOD sEARCH Section Ends Here -->
 
-    <!-- CAtegories Section Starts Here -->
-    <section class="categories">
-        <div class="container">
-            <h2 class="text-center">Foods on Your Search<a href="<?php echo SITEURL;?>category<?php echo $category_id;?> </a></h2>
-            <?php 
-            $sql="SELECT * FROM tbl_category WHERE active='Yes' AND featured='YES'LIMIT 3";
-            //Execute the Query
-            $res=mysqli_query($conn,$sql);
-            //count rows to check whether category is available
-            $count=mysqli_num_rows($res);
-            if($count>1){
-                //categories available
-                while($row=mysqli_fetch_assoc($res)){
-                    //Get the values like id ,title,image_name
-                    $id=$row['id'];
-                    $title=$row['title'];
-                    $image_name=$row['image_name'];
-                    ?>
-            
-                    <a href="category-foods.php">
-            <div class="box-3 float-container">
+            <div class="col-4 text-center">
                 <?php
-                if($image_name==""){
-                    //Display message
-                    echo "<div class='error'>Image not available</img>";
-
-
-                }else{
-                    //Image Available
-                    ?>
-                    <img src="<?php echo SITEURL;?>images/category/<?php echo $image_name;?>" alt="Pizza" class="img-responsive img-curve">
-                
-
-                    <?php
-                }
+                $sql="SELECT * FROM tbl_category";
+                //execute query
+                $res=mysqli_query($conn,$sql);
+                //count rows
+                $count=mysqli_num_rows($res);
                 ?>
-                <h3 class="float-text text-white">Pizza</h3>
+                <h1><?php echo $count;?></h1>
+                <br />
+                Categories
             </div>
-            </a>
+
+            <div class="col-4 text-center">
             <?php
-
-
-
-                }
-                    
-                
-
-            }else{
-                //categories not available
-                echo "<div class='error'>Categorie sare not available</div>";
-
-            }
-            ?>
-            <a href="<?php echo SITEURL;?>category-foods.php/id=<?php echo $id;?>">
-
-            </a>
-
-            <div class="clearfix"></div>
-        </div>
-    </section>
-    <!-- Categories Section Ends Here -->
-
-    <!-- fOOD MEnu Section Starts Here -->
-    <section class="food-menu">
-        <div class="container">
-            <h2 class="text-center">Food Menu</h2>
-         <?php
-         $sql2="SELECT * FROM tbl_food WHERE active='Yes' AND featured='Yes'LIMIT 6";
-         //Execute the query
-         $res2=mysqli_query($conn,$res2);
-         //Count rows
-         $count2=mysqli_num_rows($res2);
-         //Check Whether food available or not
-         if($count2>0){
-            //Food Available
-            while($row=mysqli_fetch_assoc($res2)){
-                //Get all the values
-                $id=$row['id'];
-                $title=$row['title'];
-                $price=$row['price'];
-                $description=$row['description'];
-                $image_name=$row['image_name'];
+                $sql2="SELECT * FROM tbl_food";
+                //execute query
+                $res2=mysqli_query($conn,$sql2);
+                //count rows
+                $count2=mysqli_num_rows($res2);
                 ?>
-                <div class="food-menu-box">
-                <div class="food-menu-img">
+                <h1><?php echo $count2; ?></h1>
+                <br />
+                Foods
+            </div>
+
+            <div class="col-4 text-center">
+            <?php
+                $sql3="SELECT * FROM tbl_order";
+                //execute query
+                $res3=mysqli_query($conn,$sql3);
+                //count rows
+                $count3=mysqli_num_rows($res3);
+                ?>
+                <h1><?php echo $count3; ?></h1>
+                <br />
+                Orders
+            </div>
+
+            <div class="col-4 text-center">
                 <?php
-                   if($image_name=""){
-                    echo"<div class='error'>Image not addedsuccessfully</div>";
-                   }
-       
-           else{
-            ?>
-            <img src="<?php echo SITEURL;?>images/category/<?php $image_name;?>" alt="Chicke Hawain Pizza" class="img-responsive img-curve">
-            <?php    
-              
-         }
-         ?>
-                     
-                <div class="food-menu-desc">
-                    <h4><?php echo $title;?></h4>
-                    <p class="food-price"><?php echo $price;?></p>
-                    <p class="food-detail">
-                       <?php $description;?>
-                    </p>
-                    <br>
+                //create sql query to get total revenue generated 
+                //aggregate function in sql
+                $sql4="SELECT SUM(total) AS Total from tbl_order WHERE status='Delivered'";
+                //execute the query
+                $res4=mysqli_query($conn,$sql4);
+                //get the value
+                $row4=mysqli_fetch_assoc($res4);
 
-                    <a href="<?php echo SITEURL;?>order.php?food_id=<?php echo $id;?>" class="btn btn-primary">Order Now</a>
-                </div>
+                //get the total revenue
+                $total_revenue=$row4['Total'];
+                ?>
+                <h1>$<?php echo $total_revenue; ?></h1>
+                <br />
+                Revenue Genereted
             </div>
-            <?php
-        }else{
-          echo "<div class='error'>Food not available.</div>";
-        }
-         }
-         ?>
-
-
-            
-           
-
-
-
-
             <div class="clearfix"></div>
 
-            
+</div> 
+</div>
 
-        </div>
+        <!--main section ends-->
+        
+        
+<?php include('partials/footer.php');?>
+    </body>
 
-        <p class="text-center">
-            <a href="#">See All Foods</a>
-        </p>
-    </section>
-    <!-- fOOD Menu Section Ends Here -->
-
-<?php include('partials-front/footer.php');?>
+</html>
