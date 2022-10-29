@@ -1,1 +1,2 @@
 # onilne-food-order-managment
+It simplifies the ordering process for both the restaurant and the customer.System presents an interactive and up-to-date menu with all available options in an easy to use manner.Customer can choose one or more items to place an order which will land in the cart.Customer can view all the order details before checking out.At the end,customer get order confirmation details.Once the order is placed it is entered into database and retrived in pretty easy manner.
